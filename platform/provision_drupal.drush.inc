@@ -154,6 +154,15 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
 function provision_drupal_fetch_site($alias = NULL) {
 
   $site = d($alias);
+  
+  // Store the current exclude-path option
+  $old_exclude = NULL;
+  $exclude = "temp/*";
+  if(!is_null($exclude)) {
+    $old_exclude = drush_get_option('exclude-paths');
+    drush_set_option('exclude-paths', $exclude);
+  }
+  
   // synch filesystem changes back from the remote server.
   $site->service('http')->fetch($site->site_path . '/files/');
   $site->service('http')->fetch($site->site_path . '/private/');
@@ -162,6 +171,15 @@ function provision_drupal_fetch_site($alias = NULL) {
   $site->service('http')->fetch($site->site_path . '/libraries/');
   // Questionable... who is authoritive?
   $site->service('http')->fetch($site->site_path . '/local.settings.php');
+  
+  // Reset the exclude-path option
+  if(!is_null($exclude)) {
+    if(empty($old_exclude)) {
+      drush_unset_option('exclude-paths');
+    } else {
+      drush_set_option('exclude-paths', $old_exclude);
+    }
+  }
 }
 
 /**

@@ -325,8 +325,8 @@ class Provision_Service extends Provision_ChainedState {
     return $this->server->sync($path, $additional_options);
   }
 
-  function fetch($path = NULL) {
-    return $this->server->fetch($path);
+  function fetch($path = NULL, $additional_options = array()) {
+    return $this->server->fetch($path, $additional_options);
   }
 
   function verify() {
