@@ -82,11 +82,11 @@ function drush_provision_drupal_pre_provision_verify() {
 
     // Composer Install Support
     // Step 0: if drush variable allows composer install on platforms, and check for composer executable fails, show warning.
-    if (drush_get_option('provision_composer_install_platforms', TRUE) && !shell_exec('composer')) {
+    if (drush_get_option('provision_composer_install_platforms', FALSE) && !shell_exec('composer')) {
       drush_log(dt('The composer executable was not found. Install composer using instructions located at https://getcomposer.org/doc/00-intro.md#globally or, if you wish to disable composer install, set "provision_composer_install_platforms" to FALSE in the ~/.drush/drushrc.php file.'), 'warning');
     }
     // If drush variable allows composer install on platforms (and composer exec passed)...
-    elseif (drush_get_option('provision_composer_install_platforms', TRUE)) {
+    elseif (drush_get_option('provision_composer_install_platforms', FALSE)) {
       // Detect composer-based platform and run composer install if it has not been run yet.
       // Step 1: Look for composer directory. Could be Drupal root. Could be the git repo_root.
       if (provision_file()->exists(d()->root . DIRECTORY_SEPARATOR . 'composer.json')->status()) {
