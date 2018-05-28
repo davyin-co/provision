@@ -174,7 +174,8 @@ if (isset($_SERVER['db_name'])) {
   print "    '^{$esc_uri}\$',\n";
   foreach ($this->aliases as $alias_url) {
     $esc_alias = str_replace('.', '\.', $alias_url);
-    print "    '^{$esc_alias}\$',\n";
+    $parts = explode('/', $esc_alias);
+    print "    '^{$parts[0]}\$',\n";
   }
 ?>
     '^localhost$',
