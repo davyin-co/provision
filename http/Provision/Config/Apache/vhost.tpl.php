@@ -99,5 +99,15 @@ if (provision_hosting_feature_enabled('subdirs') && provision_file()->exists($if
   print "  Include " . $if_subsite . "/*.conf\n";
 }
 ?>
+<?php
+if (sizeof($this->aliases) && provision_hosting_feature_enabled('cloudrup_server_subdir')) {
+  foreach ($this->aliases as $alias) {
+    $if_subsite = $this->data['http_subdird_path'] . '/' . $alias;
+    if (provision_file()->exists($if_subsite)->status()) {
+      print "  Include " . $if_subsite . "/*.conf\n";
+    }
+  }
+}
+?>
 
 </VirtualHost>
