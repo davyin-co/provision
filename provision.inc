@@ -129,6 +129,7 @@ function provision_is_local_host($host) {
     (gethostbyname($host) == '127.0.1.1') || // common setting on
                                              // ubuntu and friends
     ($host == strtolower(php_uname('n'))) ||
+    ($host == getenv("HOSTNAME")) ||
     ($host == provision_fqdn());
 }
 
