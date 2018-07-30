@@ -19,6 +19,9 @@ function drush_provision_hostmaster_install_pre_validate() {
   if (preg_match("/Access denied for user 'intntnllyInvalid'@'([^']*)'/", implode('', drush_shell_exec_output()), $match)) {
     return;
   }
+  elseif (preg_match("/ERROR 1449 \(HY000\): The user specified as a definer \('intntnllyInvalid'@'([^']*)'\) does not exist/", implode('', drush_shell_exec_output()), $match)) {
+    return;
+  }
   elseif (preg_match("/Host '([^']*)' is not allowed to connect to/", implode('', drush_shell_exec_output()), $match)) {
     return;
   }

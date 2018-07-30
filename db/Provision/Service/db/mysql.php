@@ -138,6 +138,9 @@ class Provision_Service_db_mysql extends Provision_Service_db_pdo {
     elseif (preg_match("/Host '([^']*)' is not allowed to connect to/", $output, $match)) {
       return $match[1];
     }
+    elseif (preg_match("/ERROR 1449 \(HY000\): The user specified as a definer \('intntnllyInvalid'@'([^']*)'\) does not exist/", $output, $match)) {
+      return $match[1];
+    }
     elseif (preg_match("/ERROR 2002 \(HY000\): Can't connect to local MySQL server through socket '([^']*)'/", $output, $match)) {
       return drush_set_error('PROVISION_DB_CONNECT_FAIL', dt('Local database server not running, or not accessible via socket (%socket): %msg', array('%socket' => $match[1], '%msg' => join("\n", drush_shell_exec_output()))));
     }
