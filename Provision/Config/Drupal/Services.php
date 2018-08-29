@@ -18,7 +18,14 @@ class Provision_Config_Drupal_Services extends Provision_Config {
     $this->version = provision_version();
     $this->api_version = provision_api_version();
 
-    $data = drush_command_invoke_all('provision_drupal_services', d()->uri);
+    $data = [
+      'parameters' => [
+        'renderer.config' => [
+          'required_cache_contexts' => ['languages:language_interface', 'theme', 'user.permissions', 'url.path']
+        ]
+      ]
+    ];
+    drush_command_invoke_all('provision_drupal_services', d()->uri, $data);
     
     $this->data['content'] = Symfony\Component\Yaml\Yaml::dump($data);
     if(empty($data)){
