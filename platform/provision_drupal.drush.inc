@@ -119,7 +119,7 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
       $exclude = NULL;
     }
     else {
-      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . 'static/*'. PATH_SEPARATOR . 'services.yml';
+      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . 'static/*';
     }
 
     // Store the current exclude-path option
