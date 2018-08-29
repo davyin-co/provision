@@ -188,6 +188,11 @@ function provision_drupal_fetch_site($alias = NULL) {
 function _provision_drupal_create_settings_file() {
   $config = new Provision_Config_Drupal_Settings(d()->name, drush_get_context('site'));
   $config->write();
+  
+  if (drush_drupal_major_version() >= 8) {
+    $config = new Provision_Config_Drupal_Services(d()->name, drush_get_context('site'));
+    $config->write();
+  }
 }
 
 /**
