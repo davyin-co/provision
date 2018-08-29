@@ -21,6 +21,9 @@ class Provision_Config_Drupal_Services extends Provision_Config {
     $data = drush_command_invoke_all('provision_drupal_services', d()->uri);
     
     $this->data['content'] = Symfony\Component\Yaml\Yaml::dump($data);
+    if(empty($data)){
+      $this->data['content'] = '';
+    }
 
     $this->group = $this->platform->server->web_group;
   }
