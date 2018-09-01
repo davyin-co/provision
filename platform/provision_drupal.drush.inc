@@ -117,9 +117,11 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
     $options = array();
     if ($override_slave_authority || $cluster) {
       $exclude = NULL;
+      $include = NULL;
     }
     else {
       $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . 'static/*';
+      $include = 'modules/*' . PATH_SEPARATOR . 'themes/*';
     }
 
     // Store the current exclude-path option
@@ -127,6 +129,11 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
     if(!is_null($exclude)) {
       $old_exclude = drush_get_option('exclude-paths');
       drush_set_option('exclude-paths', $exclude);
+    }
+    $old_include = NULL;
+    if(!is_null($include)) {
+      $old_include = drush_get_option('include-paths');
+      drush_set_option('include-paths', $include);
     }
 
     // Sync all filesystem changes to the remote server.
@@ -138,6 +145,13 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
         drush_unset_option('exclude-paths');
       } else {
         drush_set_option('exclude-paths', $old_exclude);
+      }
+    }
+    if(!is_null($include)) {
+      if(empty($old_include)) {
+        drush_unset_option('include-paths');
+      } else {
+        drush_set_option('include-paths', $old_include);
       }
     }
   }
