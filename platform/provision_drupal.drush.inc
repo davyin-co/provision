@@ -171,7 +171,7 @@ function provision_drupal_fetch_site($alias = NULL) {
   
   // Store the current exclude-path option
   $old_exclude = NULL;
-  $exclude = "temp/*";
+  $exclude = "temp/*" . PATH_SEPARATOR . "boost/*";
   if(!is_null($exclude)) {
     $old_exclude = drush_get_option('exclude-paths');
     drush_set_option('exclude-paths', $exclude);
