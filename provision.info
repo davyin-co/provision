@@ -1,4 +1,10 @@
 name=Provision
 description="Aegir backend"
 
-version=7.x-3.x
+version=7.x-3.160
+
+; Information added by Drupal.org packaging script on 2018-09-19
+version = "7.x-3.160"
+core = "7.x"
+project = "provision"
+datestamp = "1537352291"
