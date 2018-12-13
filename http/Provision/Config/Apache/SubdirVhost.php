@@ -8,6 +8,7 @@
  */
 class Provision_Config_Apache_SubdirVhost extends Provision_Config_Http {
   public $template = 'subdir_vhost.tpl.php';
+  public $disabled_template = 'subdir_disabled.tpl.php';
   public $description = 'subdirectory vhost support';
 
   // hack: because the parent class doesn't support multiple config

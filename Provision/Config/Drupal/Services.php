@@ -21,7 +21,7 @@ class Provision_Config_Drupal_Services extends Provision_Config {
     $data = [
       'parameters' => [
         'renderer.config' => [
-          'required_cache_contexts' => ['languages:language_interface', 'theme', 'user.permissions'],
+          'required_cache_contexts' => ['languages:language_interface', 'theme', 'user.permissions', 'url.site'],
           'auto_placeholder_conditions' => [
             'max-age' => 0,
             'contexts' => ['session', 'user'],
