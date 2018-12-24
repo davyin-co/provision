@@ -26,6 +26,9 @@ class Provision_Config_Apache_Subdir extends Provision_Config_Http {
           'exclude' => $uri_path . '/*',  // Make sure remote directory is created
         ));
         parent::write();
+        if (!d()->site_enabled) {
+          $this->unlink();
+        }
       }
     }
   }
@@ -50,7 +53,7 @@ class Provision_Config_Apache_Subdir extends Provision_Config_Http {
     parent::process();
     $this->data['uri'] = $this->uri();
     $this->data['subdir'] = $this->subdir();
-    if (!$this->site_enabled) {
+    if (!d()->site_enabled) {
       $this->template = $this->disabled_template;
     }
   }
