@@ -555,18 +555,18 @@ function _provision_find_platforms() {
  */
 function _provision_find_packages($scope, $key = '') {
   $packages = array();
-  $scope_text = ($key) ? "$scope/$key" : $scope;
-  foreach (array('modules', 'themes') as $type) {
-    $packages[$type] = array();
-    $func = "_provision_drupal_find_$type";
-    $result = $func($scope, $key);
-    if (sizeof($result)) {
-      $packages[$type] = $result;
-      drush_log(dt("Found !count !type in !scope",
-        array('!count' => sizeof($result),
-        '!scope' => $scope_text, '!type' => $type)));
-    }
-  }
+//   $scope_text = ($key) ? "$scope/$key" : $scope;
+//   foreach (array('modules', 'themes') as $type) {
+//     $packages[$type] = array();
+//     $func = "_provision_drupal_find_$type";
+//     $result = $func($scope, $key);
+//     if (sizeof($result)) {
+//       $packages[$type] = $result;
+//       drush_log(dt("Found !count !type in !scope",
+//         array('!count' => sizeof($result),
+//         '!scope' => $scope_text, '!type' => $type)));
+//     }
+//   }
   return $packages;
 }
 
