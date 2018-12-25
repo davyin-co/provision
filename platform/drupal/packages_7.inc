@@ -155,53 +155,53 @@ function _provision_drupal_system_map() {
   $packages['profiles'][$profile] = $profiles[$profile];
   $packages['profiles'][$profile]->status = 1;
 
-  foreach (_provision_system_query("module") as $module) {
-    // Skip profiles, these have a separate section above.
-    if (preg_match('/\.profile$/', $module->filename)) {
-      continue;
-    }
-    $info_file = sprintf("%s/%s.info", dirname($module->filename), $module->name);
-    $module->info = provision_parse_info_file($info_file);
+//   foreach (_provision_system_query("module") as $module) {
+//     // Skip profiles, these have a separate section above.
+//     if (preg_match('/\.profile$/', $module->filename)) {
+//       continue;
+//     }
+//     $info_file = sprintf("%s/%s.info", dirname($module->filename), $module->name);
+//     $module->info = provision_parse_info_file($info_file);
 
-    // Skip hidden modules
-    if (isset($module->info['hidden']) && $module->info['hidden'] == 1) {
-      continue;
-    }
-    $frags = explode("/", $module->filename);
-    // flag site-specific modules
-    if ($frags[0] == 'sites' && $frags[1] != 'all') {
-      $module->platform = -1;
-    }
+//     // Skip hidden modules
+//     if (isset($module->info['hidden']) && $module->info['hidden'] == 1) {
+//       continue;
+//     }
+//     $frags = explode("/", $module->filename);
+//     // flag site-specific modules
+//     if ($frags[0] == 'sites' && $frags[1] != 'all') {
+//       $module->platform = -1;
+//     }
 
-    $module->filename = realpath($module->filename);
-    if ($module->schema_version == -1) {
-      $module->schema_version = 0;
-    }
-    $packages['modules'][$module->name] = $module;
-    $module->version = $module->info['version'];
-  }
+//     $module->filename = realpath($module->filename);
+//     if ($module->schema_version == -1) {
+//       $module->schema_version = 0;
+//     }
+//     $packages['modules'][$module->name] = $module;
+//     $module->version = $module->info['version'];
+//   }
 
-  drush_log(dt("Found !count modules", array('!count' => sizeof($packages['modules']))));
+//   drush_log(dt("Found !count modules", array('!count' => sizeof($packages['modules']))));
 
-  // XXX: mostly a copy-paste from above
-  foreach (_provision_system_query("theme") as $theme) {
-    $frags = explode("/", $theme->filename);
-    // flag site-specific themes
-    if ($frags[0] == 'sites' && $frags[1] != 'all') {
-      $theme->platform = -1;
-    }
-    $info_file = sprintf("%s/%s.info", dirname($theme->filename), $theme->name);
-    $theme->info = provision_parse_info_file($info_file);
-    $theme->filename = realpath($theme->filename);
+//   // XXX: mostly a copy-paste from above
+//   foreach (_provision_system_query("theme") as $theme) {
+//     $frags = explode("/", $theme->filename);
+//     // flag site-specific themes
+//     if ($frags[0] == 'sites' && $frags[1] != 'all') {
+//       $theme->platform = -1;
+//     }
+//     $info_file = sprintf("%s/%s.info", dirname($theme->filename), $theme->name);
+//     $theme->info = provision_parse_info_file($info_file);
+//     $theme->filename = realpath($theme->filename);
 
-    if ($theme->schema_version == -1) {
-      $theme->schema_version = 0;
-    }
+//     if ($theme->schema_version == -1) {
+//       $theme->schema_version = 0;
+//     }
 
-    $packages['themes'][$theme->name] = $theme;
-    $theme->version = $theme->info['version'];
-  }
-  drush_log(dt("Found !count themes", array('!count' => sizeof($packages['themes']))));
+//     $packages['themes'][$theme->name] = $theme;
+//     $theme->version = $theme->info['version'];
+//   }
+//   drush_log(dt("Found !count themes", array('!count' => sizeof($packages['themes']))));
   return $packages;
 }
 

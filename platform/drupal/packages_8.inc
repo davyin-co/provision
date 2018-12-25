@@ -71,11 +71,11 @@ function _provision_drupal_system_map() {
   $packages['profiles'][$profile] = $profiles[$profile];
   $packages['profiles'][$profile]->status = 1;
 
-  $packages['modules'] = _provision_system_query('module');
-  drush_log(dt("Found !count modules", array('!count' => count($packages['modules']))));
+//   $packages['modules'] = _provision_system_query('module');
+//   drush_log(dt("Found !count modules", array('!count' => count($packages['modules']))));
 
-  $packages['themes'] = _provision_system_query('theme');
-  drush_log(dt("Found !count themes", array('!count' => count($packages['themes']))));
+//   $packages['themes'] = _provision_system_query('theme');
+//   drush_log(dt("Found !count themes", array('!count' => count($packages['themes']))));
 
   return $packages;
 }
