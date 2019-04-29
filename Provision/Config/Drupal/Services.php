@@ -30,7 +30,10 @@ class Provision_Config_Drupal_Services extends Provision_Config {
         ]
       ]
     ];
-    $data = drush_command_invoke_all('provision_drupal_services', d()->uri, $data);
+    $addtional = drush_command_invoke_all('provision_drupal_services', d()->uri, $data);
+    if(is_array($addtional)){
+      $data = array_merge_recursive($data, $addtional);
+    }
     
     $this->data['content'] = Symfony\Component\Yaml\Yaml::dump($data,4);
     if(empty($data)){
