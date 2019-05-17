@@ -120,7 +120,7 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
       $include = NULL;
     }
     else {
-      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . 'static/*';
+      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . '*.sql'. PATH_SEPARATOR . 'static/*';
       $include = 'modules/*' . PATH_SEPARATOR . 'themes/*';
     }
 
