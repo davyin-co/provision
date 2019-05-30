@@ -262,8 +262,26 @@ port=%s
       $gtid_option = '';
     } // else
 
+    $db_name = escapeshellcmd(drush_get_option('db_name'));
+    $skip_tables = [
+      "--ignore-table={$db_name}.cache",
+      "--ignore-table={$db_name}.cache_block",
+      "--ignore-table={$db_name}.cache_form",
+      "--ignore-table={$db_name}.cache_bootstrap",
+      "--ignore-table={$db_name}.cache_config",
+      "--ignore-table={$db_name}.cache_container",
+      "--ignore-table={$db_name}.cache_data",
+      "--ignore-table={$db_name}.cache_default",
+      "--ignore-table={$db_name}.cache_discovery",
+      "--ignore-table={$db_name}.cache_discovery_migration",
+      "--ignore-table={$db_name}.cache_dynamic_page_cache",
+      "--ignore-table={$db_name}.cache_entity",
+      "--ignore-table={$db_name}.cache_library",
+      "--ignore-table={$db_name}.cache_render",
+    ];
+    $skip_str = implode(' ', $skip_tables);
     // Mixed copy-paste of drush_shell_exec and provision_shell_exec.
-    $cmd = sprintf("mysqldump --defaults-file=/dev/fd/3 %s --single-transaction --max_allowed_packet=512M --quick --no-autocommit %s", $gtid_option, escapeshellcmd(drush_get_option('db_name')));
+    $cmd = sprintf("mysqldump --defaults-file=/dev/fd/3 %s --single-transaction --max_allowed_packet=512M --quick --no-autocommit %s %s", $gtid_option, $skip_str, $db_name);
 
     // Fail if db file already exists.
     $dump_file = fopen(d()->site_path . '/database.sql', 'x');
