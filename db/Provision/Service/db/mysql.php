@@ -46,7 +46,7 @@ class Provision_Service_db_mysql extends Provision_Service_db_pdo {
   function can_grant_privileges() {
     $dbname   = drush_get_option('aegir_db_prefix', 'site_');
     $user     = $dbname . '_user';
-    $password = $dbname . '_password';
+    $password = provision_password();
     $host     = $dbname . '_host';
     if ($status = $this->grant($dbname, $user, $password, $host)) {
       $this->revoke($dbname, $user, $host);
