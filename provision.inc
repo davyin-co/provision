@@ -379,7 +379,7 @@ function provision_password($length = 10) {
   // password. Note that the number 0 and the letter 'O' have been
   // removed to avoid confusion between the two. The same is true
   // of 'I', 1, and 'l'.
-  $allowable_characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789~!@#$^_-+=';
+  $allowable_characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789~!@$^_-+=';
 
   // Zero-based count of characters in the allowable list:
   $len = strlen($allowable_characters) - 1;
