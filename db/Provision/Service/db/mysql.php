@@ -168,7 +168,7 @@ class Provision_Service_db_mysql extends Provision_Service_db_pdo {
       $db_user = urldecode(drush_get_option('db_user'));
     }
     if (is_null($db_passwd)) {
-      $db_passwd = urldecode(drush_get_option('db_passwd'));
+      $db_passwd = drush_get_option('db_passwd');
     }
     if (is_null($db_port)) {
       $db_port = $this->server->db_port;
