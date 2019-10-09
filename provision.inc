@@ -379,20 +379,23 @@ function provision_password($length = 10) {
   // password. Note that the number 0 and the letter 'O' have been
   // removed to avoid confusion between the two. The same is true
   // of 'I', 1, and 'l'.
-  $allowable_characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  $allowable_characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789~!@#$%^&*()_-+=';
 
   // Zero-based count of characters in the allowable list:
   $len = strlen($allowable_characters) - 1;
 
   // Declare the password as a blank string.
   $pass = '';
-
-  // Loop the number of times specified by $length.
-  for ($i = 0; $i < $length; $i++) {
-
-    // Each iteration, pick a random character from the
-    // allowable string and append it to the password:
-    $pass .= $allowable_characters[mt_rand(0, $len)];
+  
+  while (!preg_match('/[a-z]+/', $pass) || !preg_match('/[A-Z]+/', $pass) || !preg_match('/[0-9]+/', $pass) || !preg_match('/[^a-zA-Z0-9]+/', $pass)) {
+    $pass = '';
+    // Loop the number of times specified by $length.
+    for ($i = 0; $i < $length; $i++) {
+      
+      // Each iteration, pick a random character from the
+      // allowable string and append it to the password:
+      $pass .= $allowable_characters[mt_rand(0, $len)];
+    }
   }
 
   return $pass;
