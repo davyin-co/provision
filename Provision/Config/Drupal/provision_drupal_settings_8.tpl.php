@@ -41,7 +41,7 @@ if (isset($_SERVER['db_name'])) {
     'driver' => $_SERVER['db_type'],
     'database' => $_SERVER['db_name'],
     'username' => $_SERVER['db_user'],
-    'password' => $_SERVER['db_passwd'],
+    'password' => urlencode($_SERVER['db_passwd']),
     'host' => $_SERVER['db_host'],
     /* Drupal interprets $databases['db_port'] as a string, whereas Drush sees
      * it as an integer. To maintain consistency, we cast it to a string. This
