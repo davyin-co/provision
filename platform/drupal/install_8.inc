@@ -147,7 +147,7 @@ function install_main() {
   }
   catch (Exception $e) {
     drush_set_error('DRUPAL_INSTALL_FAILED');
-    dlm($e);
+    drush_log($e->getMessage(), 'error');
   }
   _provision_drupal_create_directories();
 
