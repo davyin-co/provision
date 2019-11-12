@@ -387,7 +387,7 @@ function provision_password($length = 10) {
   // Declare the password as a blank string.
   $pass = '';
   
-  while (!preg_match('/[a-z]+/', $pass) || !preg_match('/[A-Z]+/', $pass) || !preg_match('/[0-9]+/', $pass)) {
+  while (!preg_match('/[a-z]+/', $pass) || !preg_match('/[A-Z]+/', $pass) || !preg_match('/[0-9]+/', $pass) || !preg_match('/[^a-zA-Z0-9]+/', $pass)) {
     $pass = '';
     // Loop the number of times specified by $length.
     for ($i = 0; $i < $length; $i++) {
@@ -396,6 +396,7 @@ function provision_password($length = 10) {
       // allowable string and append it to the password:
       $pass .= $allowable_characters[mt_rand(0, $len)];
     }
+    $pass .= '_';
   }
 
   return $pass;
