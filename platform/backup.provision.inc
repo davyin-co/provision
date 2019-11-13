@@ -99,6 +99,10 @@ function drush_provision_drupal_provision_backup() {
   } else {
     $command = 'tar cpf %s .';
   }
+  $command .= ' --exclude=files/boost/* --exclude=static/*';
+  if(drush_get_option('skip_files',false)) {
+    $command .= ' --exclude=files/* --exclude=private/*';
+  }
   $result = drush_shell_exec($command,  $backup_file);
 
   // Get the size of the backup
