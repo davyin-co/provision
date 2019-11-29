@@ -99,7 +99,7 @@ function drush_provision_drupal_provision_backup() {
   } else {
     $command = 'tar cpf %s .';
   }
-  $command .= ' --exclude=files/boost/* --exclude=static/*';
+  $command .= ' --exclude=files/boost/* --exclude=static/* --exclude=private/temp/*';
   if(drush_get_option('skip_files',false)) {
     $command .= ' --exclude=files/* --exclude=private/*';
   }
