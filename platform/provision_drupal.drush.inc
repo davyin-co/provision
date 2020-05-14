@@ -178,10 +178,8 @@ function provision_drupal_fetch_site($alias = NULL) {
   }
   
   // synch filesystem changes back from the remote server.
-  if(!drush_get_option('skip_files',false)) {
-    $site->service('http')->fetch($site->site_path . '/files/');
-    $site->service('http')->fetch($site->site_path . '/private/');
-  }
+  $site->service('http')->fetch($site->site_path . '/files/');
+  $site->service('http')->fetch($site->site_path . '/private/');
   $site->service('http')->fetch($site->site_path . '/modules/');
   $site->service('http')->fetch($site->site_path . '/themes/');
   $site->service('http')->fetch($site->site_path . '/libraries/');
