@@ -118,9 +118,16 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
     if ($override_slave_authority || $cluster) {
       $exclude = NULL;
       $include = NULL;
+      
+      $iterator = new \FilesystemIterator(d()->site_path . DIRECTORY_SEPARATOR . 'files');
+      $isDirEmpty = !$iterator->valid();
+      if($isDirEmpty) {
+        $exclude = 'files/*' . PATH_SEPARATOR . 'private/*';
+        drush_log('Empty files dir sync ignored.', 'ok');
+      }
     }
     else {
-      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*'. PATH_SEPARATOR . '*.sql'. PATH_SEPARATOR . 'static/*';
+      $exclude = 'files/*' . PATH_SEPARATOR . 'private/*' . PATH_SEPARATOR . 'static/*' . PATH_SEPARATOR . '*.sql'. PATH_SEPARATOR . '*.key';
       $include = 'modules/*' . PATH_SEPARATOR . 'themes/*';
     }
 
@@ -171,7 +178,7 @@ function provision_drupal_fetch_site($alias = NULL) {
   
   // Store the current exclude-path option
   $old_exclude = NULL;
-  $exclude = "temp/*" . PATH_SEPARATOR . "boost/*";
+  $exclude = "temp/*" . PATH_SEPARATOR . "boost/*". PATH_SEPARATOR . "files/*.key";
   if(!is_null($exclude)) {
     $old_exclude = drush_get_option('exclude-paths');
     drush_set_option('exclude-paths', $exclude);

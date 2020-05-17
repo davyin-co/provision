@@ -85,6 +85,8 @@ function drush_provision_drupal_pre_provision_deploy($backup_file) {
         if($isDirEmpty) {
           provision_file()->switch_paths($new . DIRECTORY_SEPARATOR . 'files' , $old  . DIRECTORY_SEPARATOR . 'files');
           provision_file()->switch_paths($new . DIRECTORY_SEPARATOR . 'private' , $old  . DIRECTORY_SEPARATOR . 'private');
+          
+          drush_log('Switch back empty files dir.', 'ok');
         }
         drush_set_option('site_dirs_swapped', TRUE);
       }
