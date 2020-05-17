@@ -92,7 +92,7 @@ function drush_provision_drupal_provision_backup() {
     return drush_set_error('PROVISION_BACKUP_PATH_NOT_FOUND', dt('cannot change directory to %dir', array('%dir' => d()->site_path)));
   }
   if (substr($backup_file, -2) == 'gz') {
-    $command = 'tar cpfz %s .';
+    $command = 'GZIP=-2 tar cpfz %s .';
   }
   elseif (substr($backup_file, -3) == 'bz2') {
     $command = 'tar cpfj %s .';
