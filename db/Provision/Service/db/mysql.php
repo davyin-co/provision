@@ -281,7 +281,7 @@ port=%s
     ];
     $skip_str = implode(' ', $skip_tables);
     // Mixed copy-paste of drush_shell_exec and provision_shell_exec.
-    $cmd = sprintf("mysqldump --defaults-file=/dev/fd/3 %s --single-transaction --max_allowed_packet=512M --quick --no-autocommit %s %s", $gtid_option, $skip_str, $db_name);
+    $cmd = sprintf("mysqldump --skip-definer --defaults-file=/dev/fd/3 %s --single-transaction --max_allowed_packet=512M --quick --no-autocommit %s %s", $gtid_option, $skip_str, $db_name);
 
     // Fail if db file already exists.
     $dump_file = fopen(d()->site_path . '/database.sql', 'x');
