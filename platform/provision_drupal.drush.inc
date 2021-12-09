@@ -118,7 +118,7 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
     if ($override_slave_authority || $cluster) {
       $exclude = NULL;
       $include = NULL;
-      
+
       $iterator = new \FilesystemIterator(d()->site_path . DIRECTORY_SEPARATOR . 'files');
       $isDirEmpty = !$iterator->valid();
       if($isDirEmpty) {
@@ -175,7 +175,7 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
 function provision_drupal_fetch_site($alias = NULL) {
 
   $site = d($alias);
-  
+
   // Store the current exclude-path option
   $old_exclude = NULL;
   $exclude = "temp/*" . PATH_SEPARATOR . "boost/*". PATH_SEPARATOR . "files/*.key";
@@ -183,7 +183,7 @@ function provision_drupal_fetch_site($alias = NULL) {
     $old_exclude = drush_get_option('exclude-paths');
     drush_set_option('exclude-paths', $exclude);
   }
-  
+
   // synch filesystem changes back from the remote server.
   $site->service('http')->fetch($site->site_path . '/files/');
   $site->service('http')->fetch($site->site_path . '/private/');
@@ -192,7 +192,7 @@ function provision_drupal_fetch_site($alias = NULL) {
   $site->service('http')->fetch($site->site_path . '/libraries/');
   // Questionable... who is authoritive?
   $site->service('http')->fetch($site->site_path . '/local.settings.php');
-  
+
   // Reset the exclude-path option
   if(!is_null($exclude)) {
     if(empty($old_exclude)) {
@@ -209,7 +209,7 @@ function provision_drupal_fetch_site($alias = NULL) {
 function _provision_drupal_create_settings_file() {
   $config = new Provision_Config_Drupal_Settings(d()->name, drush_get_context('site'));
   $config->write();
-  
+
   if (drush_drupal_major_version() >= 8) {
     $config = new Provision_Config_Drupal_Services(d()->name, drush_get_context('site'));
     $config->write();
