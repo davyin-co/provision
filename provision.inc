@@ -57,7 +57,6 @@ function provision_autoload_register_prefix($prefix, $dir, $prepend = FALSE) {
   else {
     array_push($dirs, $dir);
   }
-
   // Set the prefixes.
   provision_autoload()->add($prefix, $dirs);
 }
@@ -184,9 +183,11 @@ function provision_save_server_data() {
 
 function provision_save_site_data() {
   if (!drush_get_error()) {
-    $config = new Provision_Config_Drushrc_Site(d()->name);
-    $config->write();
-    provision_drupal_push_site();
+    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+      $config = new Provision_Config_Drushrc_Site(d()->name);
+      $config->write();
+      provision_drupal_push_site();
+    }
   }
 }
 
@@ -196,9 +197,11 @@ function provision_save_site_data() {
  */
 function provision_save_platform_data() {
   if (!drush_get_error()) {
-    $config = new Provision_Config_Drushrc_Platform(d()->name);
-    $config->write();
-    provision_drupal_push_site();
+    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+      $config = new Provision_Config_Drushrc_Platform(d()->name);
+      $config->write();
+      provision_drupal_push_site();
+    }
   }
 }
 
@@ -386,12 +389,12 @@ function provision_password($length = 10) {
 
   // Declare the password as a blank string.
   $pass = '';
-  
+
   while (!preg_match('/[a-z]+/', $pass) || !preg_match('/[A-Z]+/', $pass) || !preg_match('/[0-9]+/', $pass) || !preg_match('/[^a-zA-Z0-9]+/', $pass)) {
     $pass = '';
     // Loop the number of times specified by $length.
     for ($i = 0; $i < $length; $i++) {
-      
+
       // Each iteration, pick a random character from the
       // allowable string and append it to the password:
       $pass .= $allowable_characters[mt_rand(0, $len)];
@@ -418,7 +421,7 @@ function _scrub_object($input) {
 
 /**
  * Execute a command against a specific context object.
- * 
+ *
  * @param $target
  *   the context to operate on, @ prefix is optional.
  * @param $command
@@ -439,11 +442,11 @@ function provision_backend_invoke($target, $command, $arguments = array(), $data
 
 /**
  * Run a command, sending output to drush logs in real time.
- * 
+ *
  * The Symfony\Component\Process\Process Object is used to run this command.
  * After implementing provision_process(), you can get the Process result object
  * via drush context:
- * 
+ *
  *   $process = drush_get_context('provision_process_result');
  *   print $process->getExitCode();
  *

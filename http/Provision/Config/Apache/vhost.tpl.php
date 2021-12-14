@@ -105,10 +105,19 @@ if (provision_hosting_feature_enabled('subdirs') && provision_file()->exists($if
 }
 ?>
 <?php
-if (sizeof($this->aliases) && provision_hosting_feature_enabled('cloudrup_server_subdir')) {
-  foreach ($this->aliases as $alias) {
-    if (strpos($alias, '/')) continue;
-    $if_subsite = $this->data['http_subdird_path'] . '/' . $alias;
+if(provision_hosting_feature_enabled('cloudrup_server_subdir')) {
+  if (sizeof($this->aliases)) {
+    foreach ($this->aliases as $alias) {
+      if (strpos($alias, '/')) continue;
+      $if_subsite = $this->data['http_subdird_path'] . '/' . $alias;
+      if (provision_file()->exists($if_subsite)->status()) {
+        print "  Include " . $if_subsite . "/*.conf\n";
+      }
+    }
+  }
+  // hostmaster subdir support
+  if(d()->name == '@hostmaster' || d()->name == '@hm') {
+    $if_subsite = $this->data['http_subdird_path'] . '/' . d()->platform->web_server->remote_host;
     if (provision_file()->exists($if_subsite)->status()) {
       print "  Include " . $if_subsite . "/*.conf\n";
     }
