@@ -12,7 +12,7 @@
  */
 function drush_provision_drupal_provision_verify_validate() {
   if (d()->type === 'site') {
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
       drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_SITE);
       provision_prepare_environment();
 
@@ -54,7 +54,7 @@ function drush_provision_drupal_pre_provision_verify() {
   }
   elseif (d()->type === 'platform') {
 
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
 
       drush_log(dt("Checking for platform at path @path...", array('@path' => d()->root)), 'debug');
       drush_log(dt("Platform makefile: @makefile", array('@makefile' => d()->makefile)), 'debug');
@@ -159,7 +159,7 @@ function drush_provision_drupal_pre_provision_verify() {
     provision_drupal_push_site();
   }
   elseif (d()->type === 'site') {
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
       drush_set_option('packages', _scrub_object(provision_drupal_system_map()), 'site');
       // This is the actual drupal provisioning requirements.
       _provision_drupal_create_directories();
@@ -190,7 +190,7 @@ function drush_provision_drupal_pre_provision_verify() {
  */
 function drush_provision_drupal_post_provision_verify() {
   if (d()->type === 'site') {
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
       _provision_drupal_rebuild_caches();
       drush_set_option('installed', TRUE, 'site');
 

@@ -2,7 +2,9 @@
 
 function drush_db_provision_delete_validate() {
   if (d()->type === 'site') {
-    d()->service('db')->connect();
+    if(provision_is_drupal_site()) {
+      d()->service('db')->connect();
+    }
   }
 }
 
@@ -13,6 +15,8 @@ function drush_db_provision_delete_validate() {
  */
 function drush_db_provision_delete() {
   if (d()->type === 'site') {
-    d()->service('db')->destroy_site_database();
+    if(provision_is_drupal_site()) {
+      d()->service('db')->destroy_site_database();
+    }
   }
 }
