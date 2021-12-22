@@ -142,6 +142,18 @@ function provision_is_hostmaster_site() {
   // If the current root and URI matches "@hostmaster" root and URI, this is hostmaster.
   return d()->root == d('@hostmaster')->root && d()->uri == d('@hostmaster')->uri;
 }
+/**
+ * Determine if the currently acting context is drupal site.
+ *
+ * @return
+ *   Boolean TRUE if the current drush context is drupal site.
+ */
+function provision_is_drupal_site() {
+  if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    return true;
+  }
+  return false;
+}
 
 /**
  * return the FQDN of the machine or provided host
@@ -183,7 +195,7 @@ function provision_save_server_data() {
 
 function provision_save_site_data() {
   if (!drush_get_error()) {
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
       $config = new Provision_Config_Drushrc_Site(d()->name);
       $config->write();
       provision_drupal_push_site();
@@ -197,7 +209,7 @@ function provision_save_site_data() {
  */
 function provision_save_platform_data() {
   if (!drush_get_error()) {
-    if(!isset(d()->siteType) || d()->siteType == 'drupal') {
+    if(provision_is_drupal_site()) {
       $config = new Provision_Config_Drushrc_Platform(d()->name);
       $config->write();
       provision_drupal_push_site();

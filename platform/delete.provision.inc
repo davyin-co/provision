@@ -5,13 +5,15 @@
  */
 function drush_provision_drupal_pre_provision_delete($backup_file = NULL) {
   if (d()->type === 'site') {
-    drush_set_option('force', true, 'process');
-    if (!empty($backup_file) && !strpos($backup_file, '/')) {
-      drush_set_error('PROVISION_DELETE_BACKUP_NAME_RELATIVE', dt('The passed backup name is a relative path, storing that in the site directory which is going to be deleted is probably not intended. Try an absolute name, or no name to let one be generated.'));
-    }
-    else {
-      drush_invoke("provision-backup", $backup_file);
-      drush_unset_option('force', 'process');
+    if(provision_is_drupal_site()) {
+      drush_set_option('force', true, 'process');
+      if (!empty($backup_file) && !strpos($backup_file, '/')) {
+        drush_set_error('PROVISION_DELETE_BACKUP_NAME_RELATIVE', dt('The passed backup name is a relative path, storing that in the site directory which is going to be deleted is probably not intended. Try an absolute name, or no name to let one be generated.'));
+      }
+      else {
+        drush_invoke("provision-backup", $backup_file);
+        drush_unset_option('force', 'process');
+      }
     }
   }
 }
@@ -23,7 +25,9 @@ function drush_provision_drupal_pre_provision_delete($backup_file = NULL) {
  */
 function drush_provision_drupal_provision_delete() {
   if (d()->type === 'site') {
-    drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT);
+    if(provision_is_drupal_site()) {
+      drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT);
+    }
 
     drush_invoke_process('@none', 'provision-save', array(d()->name), array('delete' => TRUE));
     foreach (d()->drush_aliases as $alias) {
@@ -33,10 +37,12 @@ function drush_provision_drupal_provision_delete() {
     // Do not automatically save the drushrc at the end of the command.
     drush_set_option('provision_save_config', false);
 
-    _provision_recursive_delete(d()->site_path);
-    // we remove the aliases even if redirection is enabled as a precaution
-    // if redirection is enabled, keep silent about errors
-    _provision_drupal_delete_aliases();
+    if(provision_is_drupal_site()) {
+      _provision_recursive_delete(d()->site_path);
+      // we remove the aliases even if redirection is enabled as a precaution
+      // if redirection is enabled, keep silent about errors
+      _provision_drupal_delete_aliases();
+    }
 
     // Remove the symlink in the clients directory.
     _provision_client_delete_symlink();
@@ -44,10 +50,11 @@ function drush_provision_drupal_provision_delete() {
     provision_drupal_push_site($override_slave_authority = TRUE);
   }
   elseif (d()->type === 'platform') {
-    if (!drush_get_option('force', FALSE) && drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT) && provision_drupal_find_sites()) {
-      drush_set_error(dt('Existing sites were found on this platform. These sites will need to be deleted before this platform can be deleted.'));
-    }
-    else {
+    if(provision_is_drupal_site()) {
+      if (!drush_get_option('force', FALSE) && drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT) && provision_drupal_find_sites()) {
+        drush_set_error(dt('Existing sites were found on this platform. These sites will need to be deleted before this platform can be deleted.'));
+      }
+    }else {
       _provision_recursive_delete(d()->root);
       d()->service('http')->sync(d()->root);
     }

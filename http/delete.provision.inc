@@ -7,7 +7,7 @@ function drush_http_provision_delete() {
         ->fail('Failed to delete platform configuration file', 'DRUSH_PERM_ERROR');
   }
   if (d()->type === 'platform') {
-    if (!drush_get_option('force', FALSE) && drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT) && provision_drupal_find_sites()) {
+    if (provision_is_drupal_site() && !drush_get_option('force', FALSE) && drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_ROOT) && provision_drupal_find_sites()) {
       drush_set_error(dt('Existing sites were found on this platform. These sites will need to be deleted before this platform can be deleted.'));
     }
     else {

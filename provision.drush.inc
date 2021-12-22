@@ -160,7 +160,7 @@ function provision_drush_command() {
     'examples' => array(
       'drush @site provision-enable' => 'Enable the site as defined by the site Drush alias generated with provision-save.',
     ),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_ROOT
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH
   );
   $items['provision-disable'] = array(
     'arguments' => array('domain.com' => dt('The domain of the site to disable (only if disabled).')),
@@ -169,7 +169,7 @@ function provision_drush_command() {
     'examples' => array(
       'drush @site provision-disable' => 'Disable the site as defined by the site Drush alias generated with provision-save.',
     ),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_ROOT
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH
   );
 
   $items['provision-lock'] = array(
