@@ -12,6 +12,20 @@ $GLOBALS['install_locale'] = d()->language;
 $GLOBALS['base_url'] = provision_get_base_url();
 
 define('MAINTENANCE_MODE', 'install');
+if (!function_exists('user_load')) {
+
+function user_load($uid, $reset = FALSE) {
+  if ($reset) {
+    \Drupal::entityManager()
+      ->getStorage('user')
+      ->resetCache([
+      $uid,
+    ]);
+  }
+  return \Drupal\user\Entity\User::load($uid);
+}
+
+}
 
 function install_send_welcome_mail($url, $account, $language, $client_email, $onetime) {
   global $base_url;
@@ -19,12 +33,12 @@ function install_send_welcome_mail($url, $account, $language, $client_email, $on
     // Mail one time login URL and instructions.
     $from = \Drupal::config('system.site')->get('mail');
 
-    $username = $account->getUsername();
+    $username = $account->getDisplayName();
     $site = \Drupal::config('system.site')->get('name');
     $uri_brief = preg_replace('!^https?://!', '', $base_url);
     $edit_uri = $base_url . '/user/1/edit';
     $mailto = $account->getEmail();
-    $date = format_date(time());
+    $date = \Drupal::service('date.formatter')->format(time(), 'short');
 
     $mail_params['variables'] = array(
       '!username' => $username,
