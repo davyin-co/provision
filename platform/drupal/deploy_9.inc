@@ -1,5 +1,9 @@
 <?php
-
+if (!function_exists('db_table_exists')) {
+  function db_table_exists($table) {
+    return Database::getConnection()->schema()->tableExists($table);
+  }
+}
 /**
  * @file
  *
