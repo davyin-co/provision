@@ -164,6 +164,8 @@ function install_main() {
     drush_log($e->getMessage(), 'error');
   }
   _provision_drupal_create_directories();
+  ##https://www.drupal.org/project/provision/issues/2702963
+  drush_bootstrap(DRUSH_BOOTSTRAP_DRUPAL_FULL);
 
   // Set files paths
   \Drupal::configFactory()->getEditable('system.file')
