@@ -120,8 +120,8 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
       $include = NULL;
       ## fixed delete sites
       $dir_files = d()->site_path . DIRECTORY_SEPARATOR . 'files';
-      if ( !file_exists( $dir ) && !is_dir( $dir ) ) {
-        mkdir( $dir );
+      if ( !file_exists( $dir_files ) && !is_dir( $dir_files ) ) {
+        mkdir( $dir_files );
       }
       $iterator = new \FilesystemIterator($dir_files);
       $isDirEmpty = !$iterator->valid();
