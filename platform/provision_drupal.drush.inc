@@ -118,8 +118,12 @@ function provision_drupal_push_site($override_slave_authority = FALSE) {
     if ($override_slave_authority || $cluster) {
       $exclude = NULL;
       $include = NULL;
-
-      $iterator = new \FilesystemIterator(d()->site_path . DIRECTORY_SEPARATOR . 'files');
+      ## fixed delete sites
+      $dir_files = d()->site_path . DIRECTORY_SEPARATOR . 'files';
+      if ( !file_exists( $dir ) && !is_dir( $dir ) ) {
+        mkdir( $dir );
+      }
+      $iterator = new \FilesystemIterator($dir_files);
       $isDirEmpty = !$iterator->valid();
       if($isDirEmpty) {
         $exclude = 'files/*' . PATH_SEPARATOR . 'private/*';
